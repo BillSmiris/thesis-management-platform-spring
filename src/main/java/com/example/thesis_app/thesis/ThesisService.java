@@ -1,6 +1,7 @@
 package com.example.thesis_app.thesis;
 
 import com.example.thesis_app.configuration.auth.CustomPrincipal;
+import com.example.thesis_app.thesis.dto.request.ProfessorGradeThesisRequestModel;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisListResponseItem;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisResponseModel;
 import com.example.thesis_app.thesis.dto.response.StudentThesisResponseModel;
@@ -51,5 +52,17 @@ public class ThesisService {
         }
 
         return thesisOptional.get();
+    }
+
+    public void gradeThesis(ProfessorGradeThesisRequestModel body, CustomPrincipal principal) {
+        Optional<Thesis> thesisOptional = thesisRepository.getByIdSecure(body.getId(), principal.getName());
+
+        if(thesisOptional.isEmpty()) {
+            throw new RuntimeException("Thesis was not found or is not accessible!");
+        }
+
+        Thesis thesis = thesisOptional.get();
+        thesis.setFinalGrade(body.getGrade());
+        thesisRepository.save(thesis);
     }
 }

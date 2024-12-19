@@ -1,5 +1,6 @@
 package com.example.thesis_app.thesis;
 
+import com.example.thesis_app.meeting.Meeting;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisListResponseItem;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisResponseModel;
 import com.example.thesis_app.thesis.dto.response.StudentThesisResponseModel;
@@ -32,4 +33,10 @@ public interface ThesisRepository extends JpaRepository<Thesis, Long> {
 
     @Query("SELECT COUNT(*) FROM Thesis t WHERE t.id = :id AND t.supervisor.user.username = :username")
     Long checkHasPermission(@Param("id") Long id, @Param("username") String username);
+
+    @Query("SELECT t FROM Thesis t WHERE t.id = :id AND t.supervisor.user.username = :username")
+    Optional<Thesis> getByIdSecure(@Param("id") Long id, @Param("username") String username);
+
+    @Query("SELECT COUNT(*) FROM Thesis t WHERE t.id = :id AND t.student.user.username = :username")
+    Long studentCheckPermission(@Param("id") Long id, @Param("username") String username);
 }
