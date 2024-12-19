@@ -3,6 +3,7 @@ package com.example.thesis_app.thesis;
 import com.example.thesis_app.meeting.Meeting;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisListResponseItem;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisResponseModel;
+import com.example.thesis_app.thesis.dto.response.ReportResponseListItem;
 import com.example.thesis_app.thesis.dto.response.StudentThesisResponseModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -39,4 +40,14 @@ public interface ThesisRepository extends JpaRepository<Thesis, Long> {
 
     @Query("SELECT COUNT(*) FROM Thesis t WHERE t.id = :id AND t.student.user.username = :username")
     Long studentCheckPermission(@Param("id") Long id, @Param("username") String username);
+
+    @Query("SELECT new com.example.thesis_app.thesis.dto.response.ReportResponseListItem(" +
+            "t.id, t.title, " +
+            "s.firstName, s.lastName, s.email, s.phoneNumber, " +
+            "t.finalGrade, " +
+            "SIZE(t.meetings), SIZE(t.fileUploads)) " +
+            "FROM Thesis t " +
+            "JOIN t.student s " +
+            "WHERE t.supervisor.user.username = :username")
+    Optional<List<ReportResponseListItem>> getReport(@Param("username") String username);
 }

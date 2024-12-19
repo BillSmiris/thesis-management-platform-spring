@@ -4,6 +4,7 @@ import com.example.thesis_app.configuration.auth.CustomPrincipal;
 import com.example.thesis_app.thesis.dto.request.ProfessorGradeThesisRequestModel;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisListResponseItem;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisResponseModel;
+import com.example.thesis_app.thesis.dto.response.ReportResponseListItem;
 import com.example.thesis_app.thesis.dto.response.StudentThesisResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,5 +65,15 @@ public class ThesisService {
         Thesis thesis = thesisOptional.get();
         thesis.setFinalGrade(body.getGrade());
         thesisRepository.save(thesis);
+    }
+
+    public List<ReportResponseListItem> getReport(CustomPrincipal principal) {
+        Optional<List<ReportResponseListItem>> reportOptional = thesisRepository.getReport(principal.getName());
+
+        if(reportOptional.isEmpty()) {
+            throw new RuntimeException("No data found.");
+        }
+
+        return reportOptional.get();
     }
 }

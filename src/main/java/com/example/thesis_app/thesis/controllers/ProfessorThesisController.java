@@ -50,4 +50,13 @@ public class ProfessorThesisController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping(path = "report")
+    public ResponseEntity<Object> getReport(@AuthenticationPrincipal CustomPrincipal principal){
+        try {
+            return ResponseEntity.ok(thesisService.getReport(principal));
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
