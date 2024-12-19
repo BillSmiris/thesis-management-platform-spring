@@ -3,6 +3,8 @@ package com.example.thesis_app.fileUpload;
 import com.example.thesis_app.thesis.Thesis;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table
 public class FileUpload {
@@ -27,6 +29,10 @@ public class FileUpload {
 
     @Column(nullable = false)
     private String filePath;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timestamp;
 
     @ManyToOne
     @JoinColumn(name = "thesis_id", referencedColumnName = "id")
@@ -62,6 +68,14 @@ public class FileUpload {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Thesis getThesis() {

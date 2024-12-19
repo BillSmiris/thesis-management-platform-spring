@@ -1,16 +1,28 @@
 package com.example.thesis_app.fileUpload;
 
 import com.example.thesis_app.configuration.auth.CustomPrincipal;
+import com.example.thesis_app.fileUpload.dto.response.ProfessorFileListResponseItem;
 import com.example.thesis_app.thesis.Thesis;
 import com.example.thesis_app.thesis.ThesisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FileUploadService {
@@ -55,10 +67,49 @@ public class FileUploadService {
             fileUpload.setFilePath(fileDir);
             fileUpload.setFileName(file.getOriginalFilename());
             fileUpload.setFileType(file.getContentType());
+            fileUpload.setTimestamp(new Date());
 
             fileUploadRepository.save(fileUpload);
         } catch (Exception e) {
             throw new RuntimeException("File upload failed.");
+        }
+    }
+
+    public List<ProfessorFileListResponseItem> getThesisFiles(Long thesisId, CustomPrincipal principal) {
+        Optional<List<ProfessorFileListResponseItem>> fileOptional = fileUploadRepository.getThesisFiles(thesisId, principal.getName());
+
+        if(fileOptional.isEmpty()) {
+            throw new RuntimeException("Thesis not found or is inaccessible.");
+        }
+
+        return fileOptional.get();
+    }
+
+    public ResponseEntity<Object> getFile(Long id, CustomPrincipal principal) {
+        Optional<FileUpload> fileOptional = fileUploadRepository.getByIdSecure(id, principal.getName());
+
+        if(fileOptional.isEmpty()) {
+            throw new RuntimeException("File not found or is not accessible.");
+        }
+
+        Path filePath = Paths.get(fileOptional.get().getFilePath());
+        try {
+            Resource resource = new UrlResource(filePath.toUri());
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new RuntimeException("File not found or not readable.");
+            }
+
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            throw new RuntimeException("File not found or is not accessible.");
         }
     }
 }
