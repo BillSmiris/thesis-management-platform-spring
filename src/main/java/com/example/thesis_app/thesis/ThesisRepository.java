@@ -29,4 +29,7 @@ public interface ThesisRepository extends JpaRepository<Thesis, Long> {
             "t.id, t.title, t.student.firstName, t.student.lastName) " +
             "FROM Thesis t WHERE t.supervisor.user.username = :username")
     Optional<List<ProfessorThesisListResponseItem>> getByProfessorUsername(@Param("username") String username);
+
+    @Query("SELECT COUNT(*) FROM Thesis t WHERE t.id = :id AND t.supervisor.user.username = :username")
+    Long checkHasPermission(@Param("id") Long id, @Param("username") String username);
 }
