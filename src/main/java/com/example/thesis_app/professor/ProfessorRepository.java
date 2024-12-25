@@ -1,6 +1,5 @@
 package com.example.thesis_app.professor;
 
-import com.example.thesis_app.student.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

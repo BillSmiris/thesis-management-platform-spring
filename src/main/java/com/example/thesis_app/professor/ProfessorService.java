@@ -1,9 +1,6 @@
 package com.example.thesis_app.professor;
 
 import com.example.thesis_app.configuration.auth.CustomPrincipal;
-import com.example.thesis_app.configuration.auth.CustomUserDetails;
-import com.example.thesis_app.meeting.MeetingRepository;
-import com.example.thesis_app.meeting.MeetingService;
 import com.example.thesis_app.professor.dto.response.ProfessorPersonalData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,5 @@
 package com.example.thesis_app.thesis;
 
-import com.example.thesis_app.meeting.Meeting;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisListResponseItem;
 import com.example.thesis_app.thesis.dto.response.ProfessorThesisResponseModel;
 import com.example.thesis_app.thesis.dto.response.ReportResponseListItem;

@@ -1,7 +1,5 @@
 package com.example.thesis_app.professor.dto.response;
 
-import jakarta.persistence.Column;
-
 public class ProfessorPersonalData {
     private String firstName;
     private String lastName;

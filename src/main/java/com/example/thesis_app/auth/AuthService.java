@@ -1,8 +1,6 @@
 package com.example.thesis_app.auth;
 
 import com.example.thesis_app.auth.dto.request.LoginRequestModel;
-import com.example.thesis_app.auth.dto.response.LoginResponseModel;
-import com.example.thesis_app.professor.ProfessorRepository;
 import com.example.thesis_app.user.User;
 import com.example.thesis_app.user.UserRepository;
 import jakarta.security.auth.message.AuthException;
@@ -45,8 +43,5 @@ public class AuthService {
         }
 
         return jwtUtil.generateToken(user.getUsername(), user.getRole());
-//        return new LoginResponseModel(
-//                user.getRole()
-//        );
     }
 }

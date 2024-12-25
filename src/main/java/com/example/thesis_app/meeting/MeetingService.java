@@ -51,7 +51,6 @@ public class MeetingService {
 
     @Transactional
     public void createMeeting(CreateMeetingRequestModel body, CustomPrincipal principal) {
-        logger.info("dddd");
         if(thesisRepository.checkHasPermission(body.getThesisId(), principal.getName()) == 0) {
             throw new RuntimeException("You do not have permission to edit this resource.");
         }
@@ -79,7 +78,7 @@ public class MeetingService {
     }
 
     @Transactional
-    public void saveMeeting(ProfessorMeetingInfoResponseModel body, CustomPrincipal principal) {
+        public void saveMeeting(ProfessorMeetingInfoResponseModel body, CustomPrincipal principal) {
         Optional<Meeting> meetingOptional = meetingRepository.getByIdSecure(body.getId(), principal.getName());
 
         if(meetingOptional.isEmpty()) {

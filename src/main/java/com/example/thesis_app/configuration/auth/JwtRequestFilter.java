@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 @Component

@@ -1,7 +1,6 @@
 package com.example.thesis_app.professor.controllers;
 
 import com.example.thesis_app.configuration.auth.CustomPrincipal;
-import com.example.thesis_app.configuration.auth.CustomUserDetails;
 import com.example.thesis_app.professor.ProfessorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

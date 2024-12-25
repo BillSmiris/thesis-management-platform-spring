@@ -1,15 +1,12 @@
 package com.example.thesis_app.student;
 
 import com.example.thesis_app.configuration.auth.CustomPrincipal;
-import com.example.thesis_app.configuration.auth.CustomUserDetails;
 import com.example.thesis_app.student.dto.response.StudentPersonalData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.Optional;
 
 @Service
